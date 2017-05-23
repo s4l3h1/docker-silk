@@ -22,4 +22,6 @@ RUN cp -fv /usr/local/share/silk/etc/init.d/rwflowpack /etc/init.d/
 RUN update-rc.d rwflowpack start 20 3 4 5 .
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD superv.conf /etc/supervisor/conf.d/
+RUN mkdir /var/log/supervisord/
+RUN mkdir /var/log/silk/
 ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
