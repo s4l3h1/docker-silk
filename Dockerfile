@@ -20,9 +20,6 @@ ADD sensors.conf /data/
 ADD rwflowpack.conf /usr/local/etc/rwflowpack.conf
 RUN cp -fv /usr/local/share/silk/etc/init.d/rwflowpack /etc/init.d/
 RUN update-rc.d rwflowpack start 20 3 4 5 .
-CMD ["nohup /usr/local/bin/yaf --silk --ipfix=tcp --live=pcap  --out=127.0.0.1 --ipfix-port=18001 --in=eth0 --applabel --max-payload=384 &"]
-CMD ["ping -c 4 8.8.8.8"]
-RUN sh /etc/init.d/rwflowpack status
-RUN cat /var/log/rwflowpack-*.log
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ADD superv.conf /etc/supervisor/conf.d/
 ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
